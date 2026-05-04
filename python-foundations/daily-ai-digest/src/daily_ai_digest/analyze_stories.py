@@ -35,14 +35,14 @@ def categorize_story(title: str) -> str:
             return "other"
 
 
-# @timed
+@timed
 def load_stories(path: Path) -> list[dict]:
     """Read sample stories from disk using a context manager."""
     with open(path) as f:
         return json.load(f)
 
 
-# @timed
+@timed
 def analyze(stories: list[dict], min_score: int = 50) -> dict:
     """Filter, categorize, and aggregate."""
     # List comprehension: filter by score, enrich with category
@@ -74,11 +74,19 @@ def analyze(stories: list[dict], min_score: int = 50) -> dict:
     }
 
 
+def test_Comprehensiosn(list):
+    list = [1, 2, 3, 4, 5];
+    # List comprehension: filter even numbers
+    odd_Squars = sum(n**2 for n in list if n % 2 == 1)
+    return odd_Squars
+
+
+
 def main():
     here = Path(__file__).parent
     stories = load_stories(here / "sample_stories.json")
     report = analyze(stories, min_score=50)
-
+    print(test_Comprehensiosn(list));
     # Pretty-print summary
     print(f"\nLoaded {len(stories)} stories total.")
     print(f"After filtering (score >= 50): {report['total_above_threshold']} stories")
