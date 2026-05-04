@@ -1,0 +1,67 @@
+{
+  "total_above_threshold": 8,
+  "categories": {
+    "ai": 6,
+    "infra": 1,
+    "frontend": 1
+  },
+  "avg_score": 252.1,
+  "stories": [
+    {
+      "id": 1,
+      "title": "GPT-5 announced with new reasoning capabilities",
+      "score": 580,
+      "url": "https://openai.com/blog/gpt-5",
+      "category": "ai"
+    },
+    {
+      "id": 3,
+      "title": "Why I left React for SolidJS",
+      "score": 142,
+      "url": "https://blog.example.com/react-to-solid",
+      "category": "frontend"
+    },
+    {
+      "id": 4,
+      "title": "LangChain vs LlamaIndex: a deep comparison",
+      "score": 96,
+      "url": "https://medium.com/ai/langchain-vs",
+      "category": "ai"
+    },
+    {
+      "id": 5,
+      "title": "Ask HN: Best resources to learn AI engineering?",
+      "score": 410,
+      "url": null,
+      "category": "ai"
+    },
+    {
+      "id": 6,
+      "title": "PostgreSQL 17 released",
+      "score": 320,
+      "url": "https://postgresql.org/news/17",
+      "category": "infra"
+    },
+    {
+      "id": 8,
+      "title": "Building agents with LangGraph",
+      "score": 218,
+      "url": "https://blog.langchain.dev/langgraph",
+      "category": "ai"
+    },
+    {
+      "id": 9,
+      "title": "Tailwind v4 alpha released",
+      "score": 184,
+      "url": "https://tailwindcss.com/v4",
+      "category": "ai"
+    },
+    {
+      "id": 10,
+      "title": "I trained an LLM on my own writing",
+      "score": 67,
+      "url": "https://blog.example.com/personal-llm",
+      "category": "ai"
+    }
+  ]
+}

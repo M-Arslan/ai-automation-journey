@@ -1,0 +1,12 @@
+[
+  {"id": 1, "title": "GPT-5 announced with new reasoning capabilities", "score": 580, "url": "https://openai.com/blog/gpt-5"},
+  {"id": 2, "title": "Show HN: My weekend Rust project", "score": 23, "url": "https://github.com/me/project"},
+  {"id": 3, "title": "Why I left React for SolidJS", "score": 142, "url": "https://blog.example.com/react-to-solid"},
+  {"id": 4, "title": "LangChain vs LlamaIndex: a deep comparison", "score": 96, "url": "https://medium.com/ai/langchain-vs"},
+  {"id": 5, "title": "Ask HN: Best resources to learn AI engineering?", "score": 410, "url": null},
+  {"id": 6, "title": "PostgreSQL 17 released", "score": 320, "url": "https://postgresql.org/news/17"},
+  {"id": 7, "title": "The end of the React era?", "score": 7, "url": "https://blog.example.com/react-end"},
+  {"id": 8, "title": "Building agents with LangGraph", "score": 218, "url": "https://blog.langchain.dev/langgraph"},
+  {"id": 9, "title": "Tailwind v4 alpha released", "score": 184, "url": "https://tailwindcss.com/v4"},
+  {"id": 10, "title": "I trained an LLM on my own writing", "score": 67, "url": "https://blog.example.com/personal-llm"}
+]
