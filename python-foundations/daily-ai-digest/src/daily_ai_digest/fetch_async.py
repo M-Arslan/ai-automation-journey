@@ -27,6 +27,22 @@ async def fetch_item(client: httpx.AsyncClient, item_id: int) -> dict | None:
     response.raise_for_status()
     return response.json()
 
+async def fetch_weather_data(client:httpx.AsyncClient, city:str) -> dict:
+    """Fetch weather data for a given city."""
+    api_key = "1a309832f00b7329b7d07bcaa506635a"  # Replace with your actual API key from OpenWeatherMap
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
+    response = await client.get(url)
+    response.raise_for_status()
+    return response.json()  
+
+async def weather_gather(client:httpx.AsyncClient, city:str):
+    """Fetch weather data for multiple cities concurrently."""
+    cities = ["New York", "London", "Tokyo", "Sydney", "Paris"]
+    tasks = [fetch_weather_data(client, city) for city in cities]
+    weather_data = await asyncio.gather(*tasks)
+    return weather_data
+
+    
 
 async def fetch_top_stories(limit: int = 30) -> list[HackerNewsStory]:
     """Fetch the top stories concurrently."""
@@ -66,11 +82,20 @@ if __name__ == "__main__":
         stories = await fetch_top_stories(limit=100)
         elapsed = time.perf_counter() - start
 
-        print(f"\nFetched {len(stories)} stories in {elapsed:.2f}s\n")
-        for story in stories[:5]:
-            print(f"  [{story.score:>4}] {story.title}")
-            print(f"         by {story.author} — {story.url}")
-            print()
-        print(f"... and {len(stories) - 5} more")
+        # print(f"\nFetched {len(stories)} stories in {elapsed:.2f}s\n")
+        # for story in stories[:5]:
+        #     print(f"  [{story.score:>4}] {story.title}")
+        #     print(f"         by {story.author} — {story.url}")
+        #     print()
+        # print(f"... and {len(stories) - 5} more")
+
+        print(f"\\n weather data for multiple cities concurrently...\\n")
+        async with httpx.AsyncClient(timeout=DEFAULT_TIMEOUT) as client:
+            start = time.perf_counter()
+            weather_data = await weather_gather(client, city="")
+            for data in weather_data:
+                print(f"City: {data['name']}, Weather: {data['weather'][0]['description']}, Temperature: {data['main']['temp']}K")
+            elapsed = time.perf_counter() - start
+            print(f"\\nFetched weather data for {len(weather_data)} cities in {elapsed:.2f}s\\n")
 
     asyncio.run(main())
