@@ -22,7 +22,9 @@ def _get_client() -> Anthropic:
 
 
 SYSTEM_PROMPT = (
-    "You are a snarky tech blogger. Summarize in one sarcastic sentence."
+    "You are a tech news editor. Summarize Hacker News stories in exactly "
+    "two crisp sentences. First sentence: what the story is about. "
+    "Second sentence: why it matters. No hype, no clickbait."
 )
 
 
