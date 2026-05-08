@@ -53,6 +53,22 @@ class Summary(BaseModel):
     story_id: int
 
 
+class SummaryFields(BaseModel):
+    """The fields produced by the LLM. We add `story_id` ourselves
+    when assembling the final `Summary`."""
+
+    headline: str = Field(
+        ..., description="A 5-10 word punchy rewrite of the story's title."
+    )
+    key_points: list[str] = Field(
+        ...,
+        description="2-4 bullet points capturing the substance.",
+        min_length=2,
+        max_length=4,
+    )
+    sentiment: Literal["positive", "neutral", "negative"]
+
+
 class DigestConfig(BaseModel):
     """Runtime configuration for one digest run.
 
