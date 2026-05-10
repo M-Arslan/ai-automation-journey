@@ -13,10 +13,13 @@ dependencies = [
     "openai>=2.35.1",
     "pydantic>=2.13.3",
     "python-dotenv>=1.2.2",
+    "rich>=15.0.0",
+    "typer>=0.25.1",
 ]
 
 [project.scripts]
 daily-ai-digest = "daily_ai_digest:main"
+digest = "daily_ai_digest.cli:app"
 
 [build-system]
 requires = ["uv_build>=0.11.7,<0.12.0"]

@@ -6,7 +6,7 @@ Two modes:
 """
 
 from collections.abc import Iterator
-from anthropic import Anthropic
+from anthropic import Anthropic, AsyncAnthropic
 from daily_ai_digest.config import ANTHROPIC_API_KEY, require
 from daily_ai_digest.models import Summary, SummaryFields
 
@@ -14,6 +14,7 @@ from daily_ai_digest.models import Summary, SummaryFields
 # The Anthropic SDK manages connection pooling internally; reusing the
 # client is significantly faster than creating one per call.
 _client: Anthropic | None = None
+_async_client: AsyncAnthropic | None = None
 
 
 def _get_client() -> Anthropic:
@@ -23,12 +24,56 @@ def _get_client() -> Anthropic:
         _client = Anthropic(api_key=require("ANTHROPIC_API_KEY", ANTHROPIC_API_KEY))
     return _client
 
+def _get_async_client() -> AsyncAnthropic:
+    """Lazy-init the async Anthropic client."""
+    global _async_client
+    if _async_client is None:
+        _async_client = AsyncAnthropic(
+            api_key=require("ANTHROPIC_API_KEY", ANTHROPIC_API_KEY)
+        )
+    return _async_client
+
 
 SYSTEM_PROMPT = (
     "You are a tech news editor. Given a Hacker News story, produce a concise "
     "structured summary by calling the submit_summary tool. Be factual and "
     "neutral; avoid hype and clickbait."
 )
+
+async def summarize_structured_async(
+    text: str,
+    story_id: int,
+    model: str = "claude-haiku-4-5",
+) -> Summary:
+    """Async version of summarize_structured."""
+    client = _get_async_client()
+    schema = SummaryFields.model_json_schema()
+
+    response = await client.messages.create(
+        model=model,
+        max_tokens=500,
+        system=SYSTEM_PROMPT,
+        tools=[
+            {
+                "name": "submit_summary",
+                "description": "Submit your structured summary of the story.",
+                "input_schema": schema,
+            }
+        ],
+        tool_choice={"type": "tool", "name": "submit_summary"},
+        messages=[{"role": "user", "content": text}],
+    )
+
+    for block in response.content:
+        if block.type == "tool_use" and block.name == "submit_summary":
+            fields = SummaryFields.model_validate(block.input)
+            return Summary(story_id=story_id, **fields.model_dump())
+
+    raise RuntimeError(
+        f"Model did not produce a submit_summary tool_use block. "
+        f"Got blocks: {[b.type for b in response.content]}"
+    )
+
 
 
 def summarize_structured(
